@@ -78,7 +78,7 @@
             font-weight: bold;
             font-size: calc(3vw + 3vh);
             text-align: center;
-            width: 95%;
+            width: 85%;
             -webkit-border-radius: 10px;
             -moz-border-radius: 10px;
             border-radius: 10px;
