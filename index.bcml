@@ -76,7 +76,7 @@
             color: #feb300;
             font-family: 'Nothing You Could Do', cursive;
             font-weight: bold;
-            font-size: calc(3vw + 3vh);
+            font-size: calc(2.5vw + 2.5vh);
             text-align: center;
             width: 85%;
             -webkit-border-radius: 10px;
