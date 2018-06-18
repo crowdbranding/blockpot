@@ -385,7 +385,7 @@
                     return false;
                 }
             }
-            var app = new BlockPotGame($('#app'), "ySXf51dakhQHmcogL4WA4VdaArZqWzxQPa");
+            var app = new BlockPotGame($('#app'), "TM6mMwc7nTiSBjhoPxJ7nQ33eG5N7eEFxv");
             app.init();
         </script>
     </bizapp-root>
