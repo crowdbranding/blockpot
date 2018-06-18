@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="HandheldFriendly" content="true">
+    <title>BlockPot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.bizstore.io/bizapp-0.0.3.min.js"></script>
+    <style>
+        body {
+            background-image: url('assets/img/bg.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        #app {
+            max-width: 640px;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            margin: 0 auto;
+            padding-bottom: 20px;
+        }
+
+        #app-inner {
+            padding: 0 20px;
+        }
+
+        #header img,
+        #subtitle img {
+            width: 80%;
+        }
+
+        #header {
+            margin-top: 40px;
+            margin-bottom: 60px;
+        }
+
+        #subtitle img {
+            width: 80%;
+        }
+
+        #game-cont {
+            display: flex;
+        }
+
+        #fatcat,
+        #input-cont {
+            flex-grow: 1;
+            width: 50%;
+        }
+
+        #fatcat img {
+            max-width: 80%;
+        }
+
+        #inner-cont {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: center;
+        }
+
+        #the-field-cont {
+            margin-bottom: 15px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            border: 2px solid #fff;
+            padding: 8px;
+        }
+
+        #the-field-cont input {
+            color: #feb300;
+            font-family: 'Nothing You Could Do', cursive;
+            font-weight: bold;
+            font-size: calc(3vw + 3vh);
+            text-align: center;
+            width: 95%;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            height: calc(3vw + 3vh);
+        }
+
+        #submit-btn img {
+            width: 100%;
+        }
+
+        #submit-btn {
+            cursor: pointer;
+        }
+
+        #insp-cont {
+            margin-top: 30px;
+            font-size: calc(1vw + 1vh);
+            background: url(assets/img/boardbg.png);
+            -webkit-border-radius: 22px;
+            -moz-border-radius: 22px;
+            border-radius: 22px;
+            height: 60vw;
+            max-height: 395px;
+        }
+
+        #insp-outter-cont {
+
+            position: relative;
+
+        }
+
+        #board-border {
+            height: auto;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        #insp-inner-cont {
+            z-index: 99;
+            width: 100%;
+            position: absolute;
+        }
+
+        #insp-board h2 {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1.2em;
+        }
+
+        #insp-board {
+            padding: 20px;
+        }
+
+        #insp-board table {
+            width: 100%;
+        }
+
+        #insp-board table thead {
+            background: #000;
+            color: #fff;
+        }
+
+        #insp-board table th {
+            padding: 6px;
+        }
+
+        #insp-board .height {
+            text-decoration: underline;
+        }
+
+        #insp-board .num {
+            font-weight: bold;
+        }
+
+        #insp-board table td {
+            font-size: 1.1em;
+            padding: calc(1.5vw) 0;
+        }
+
+        #faq .header {
+            background: #000;
+            line-height: 40px;
+            height: 40px;
+            color: #fff;
+        }
+
+        #faq .content {
+            text-align: left;
+            font-size:0.9em;
+            padding-right:25px;
+            word-break: break-word;
+        }
+
+        #faq li {
+            margin-bottom: 10px;
+        }
+
+        #faq {
+            margin-top: 20px;
+            background: #fff;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom:30px;
+        }
+
+        #message {
+            margin-top: 20px;
+            background: #fff;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            padding:20px;
+            display:none;
+            word-break: break-word;
+        }
+        .success{color:#27ae60;}
+        .error{color:#c0392b;}
+        .red{color:#ff0000;}
+    </style>
+    <link href="https://fonts.googleapis.com/css?family=Nothing+You+Could+Do" rel="stylesheet">
+</head>
+
+<body>
+    <bizapp-root>
+        <div id="app">
+            <div id="app-inner">
+                <div id="header">
+                    <img src="assets/img/header.png" />
+                </div>
+                <div id="subtitle">
+                    <img src="assets/img/desc.png" />
+                </div>
+                <div id="game-cont">
+                    <div id="fatcat">
+                        <img src="assets/img/fatcat.png" />
+                    </div>
+                    <div id="input-cont">
+                        <div id="inner-cont">
+                            <div id="the-field-cont">
+                                <input id="luckynumber" type="text" placeholder="1234" onkeyup="app.handleInput(this);" />
+                            </div>
+                            <div>
+                                <div id="submit-btn" href="#" onclick="return app.submit($('#luckynumber').val());">
+                                    <img src="assets/img/btnPlay.png" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="message">
+                </div>
+                <div id="insp-cont">
+                    <div id="insp-outter-cont">
+                        <div id="insp-inner-cont">
+                            <div id="insp-board">
+                                <h2>INSPIRATION BOARD</h2>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Number</th>
+                                            <th>Block #</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <img id="board-border" src="assets/img/border.png" />
+                    </div>
+                </div>
+                <div id="faq">
+                    <div class="header">HOW TO PLAY</div>
+                    <div class="content">
+                        <ol>
+                            <li>
+                                Enter your lucky 4-digits number and click "Play Now" to participate in the lucky draw. You will have to pay 1 TRVC to participate.
+                            </li>
+                            <li>
+                                Upon successful payment, a transaction ID will be displayed, indicating your submission has been broadcasted into the blockchain.
+                            </li>
+                            <li>
+                                Block Pot will extract the last 4 significant digits from the first block mined every day, at UTC time. For example, the first block mined on 17 June 2018 was at height #57765 with block hash <i>00000000000004bde5634c0539bc6186f1fad1ec29a1b85c95d71b3e8<b class="red">3</b>a<b class="red">1</b>a<b class="red">79</b>a</i>, the last 4 significant digits was <b class="red">3179</b>. 
+                            </li>
+                            <li>
+                                Players who guessed the exact 4-digits correctly, for the first block mined the next day will win the jackpot.
+                            </li>
+                            <li>Each submission is only valid to guess the exact first block of next day and will not be carried forward.</li>
+                            <li>
+                                The drawings is done automatically at 2am UTC time, prize will be credited into the wallet used to pay the submission.
+                            </li>
+                            <li>
+                                In the event that more than 1 winners, the 100 TRVC jackpot will be shared equally among the winners, or minimum of 10 TRVC
+                                winnings for each submission, whichever higher.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script>
+            class BlockPotCore {
+
+                constructor(api) {
+                    this.insight_url = api;
+                }
+
+                getInspirations(rows, callback) {
+                    let api = this.insight_url;
+                    let inspirations = [];
+
+                    function getBlockInfo(date, callback) {
+                        $.get(api + 'blocks?limit=576&blockDate=' + date, (res) => {
+                            let info = false;
+                            if (res) {
+                                let firstblock = res.blocks.pop();
+                                let digits = firstblock.hash.replace(/\D/g, '');
+                                let validNumbers = digits.substr(digits.length - 4);
+                                info = { "date": date, "height": firstblock.height, "number": validNumbers, "hash": firstblock.hash };
+                            }
+                            callback(info);
+                        });
+                    }
+
+                    let date = new Date();
+                    for (let i = 0; i < rows; i++) {
+                        let dateStr = date.toISOString().slice(0, 10);
+
+                        getBlockInfo(dateStr, (info) => {
+                            inspirations.unshift(info);
+                            if (inspirations.length >= rows) {
+                                inspirations = inspirations.sort(function (a, b) {
+                                    return b.height - a.height;
+                                });
+
+                                callback(inspirations);
+                            }
+                        });
+                        date = new Date(new Date(dateStr) - 86400000);
+                    }
+                }
+
+            }
+
+            class BlockPotGame {
+                constructor(container, payment) {
+                    this.container = container;
+                    this.payment = payment;
+                    this.insight = 'https://insight.trivecoin.org/';
+                    this.core = new BlockPotCore(this.insight + 'api/');
+                }
+
+                init() {
+                    this.core.getInspirations(3, (inspirations) => {
+                        let table = $('#insp-board table', this.container);
+                        for (let i = 0; i < inspirations.length; i++) {
+                            let obj = inspirations[i];
+                            $('tbody', table).append('<tr><td class="date">' + obj.date + '</td><td class="num">' + obj.number + '</td><td class="height"><a onclick="return app.viewBlock(\'' + obj.hash + '\');" href="#" >' + obj.height + '</td></tr>');
+                        }
+                    })
+                }
+
+                handleInput(input) {
+                    let val = $(input).val();
+                    val = val.replace(/\D/g, '');
+                    if (val.length > 4) {
+                        val = val.substr(val.length - 4);
+                    }
+                    $(input).val(val);
+                    $('#message', this.container).hide();
+                }
+
+                viewBlock(hash) {
+                    BizApp.openExternalLink({ url: this.insight + 'block/' + hash });
+                    return false;
+                }
+
+                submit(val) {
+                    if (val.length != 4) {
+                        $('#message', this.container).removeClass("success").addClass("error").text("Please enter 4 digits").show();
+                        return false;
+                    }
+                    else {
+                        var options = {
+                            address: this.payment,
+                            amount: 100000000, // 1 TRVC
+                            message: "BlockPot " + val,
+                            identifier: val
+                        };
+
+                        BizApp.payToWallet(options, function (error, result) {
+                            if (error) {
+                                $('#message', this.container).text(error);
+                                return;
+                            }
+                            $('#message', this.container).removeClass("error").addClass("success").text("Submission successful! Your transaction ID is " + result.txid).show();
+                        });
+                    }
+                    return false;
+                }
+            }
+            var app = new BlockPotGame($('#app'), "ySXf51dakhQHmcogL4WA4VdaArZqWzxQPa");
+            app.init();
+        </script>
+    </bizapp-root>
+</body>
+
+</html>
